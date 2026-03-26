@@ -3328,11 +3328,15 @@ export default{
 
 ## Git
 
+- ### 仓库操作
+
 创建一个本地仓库
 
 ```bash
 git init
 ```
+
+- ### 文件操作
 
 工作区到暂存区  
 
@@ -3352,9 +3356,63 @@ git status
 git commit -m "完成了某某功能"
 ```
 
+提交日志
 
+```bash
+git log --oneline
+```
 
+- ### **文件误删除**
 
+**误删除未提交恢复**：使用 “git restore” 指令可将存储区文件恢复到工作区。
+
+```bash
+git restore 文件名
+```
+
+**误删除已提交恢复**：若删除操作已提交，“git restore” 无法恢复；可使用 “git reset --hard” 指令重置版本库，但会丢失提交过程；也可使用 “git revert” 指令，通过指定版本号将版本库还原到提交之前的操作，且不丢失提交记录。
+
+```bash
+git reset --hard xxxxxxxx //恢复之前被误删除的
+```
+
+```bash
+ git revert 版本号 //恢复到这个版本号之前
+```
+
+- ### 分支操作
+
+ 创建并切换分支
+
+使用 “git checkout -b order” 可将创建订单分支和切换到该分支的步骤合并。
+
+```bash
+git checkout -b order
+```
+
+分支查看
+
+```bash
+git branch
+```
+
+分支切换
+
+```bash
+git checkout user
+```
+
+分支删除
+
+```bash
+git branch -d use
+```
+
+- ### 标签操作
+
+  
+
+- ### 远程操作
 
 
 
