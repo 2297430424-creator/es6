@@ -1,24 +1,152 @@
+面试题https://www.bilibili.com/video/BV1x14y1Y7Rs?spm_id_from=333.788.videopod.sections&vd_source=8d4c7b9f4da326b3d1db430cbe157658
+
+BEM：https://juejin.cn/post/7509431280951672841
+循环：https://juejin.cn/post/7420718380985319464
+flex布局：https://juejin.cn/post/7260405816702795835
+keepalive：https://juejin.cn/post/7402891257196806156
+vuex:https://www.bilibili.com/video/BV1h7411N7bg/?spm_id_from=333.1387.favlist.content.click
+sass:https://www.bilibili.com/video/BV17W411w7nL/?spm_id_from=333.1387.favlist.content.click
+vite:https://www.bilibili.com/video/BV1GN4y1M7P5/?spm_id_from=333.1387.favlist.content.click
+vue+pinia:https://www.bilibili.com/video/BV11u41187Tm/?spm_id_from=333.1387.favlist.content.click&vd_source=8d4c7b9f4da326b3d1db430cbe157658
+
+插槽：https://www.bilibili.com/video/BV1Wz4y187zs/?spm_id_from=333.337.search-card.all.click
+
+git:https://mp.weixin.qq.com/s/qiZ97DEZtTRxq6FYKJqULg
+
+## 改变this指向的三种方式有什么区别
+
+apply 
+
+ bind 
+
+call
+
+## 数组去重的方式 ：
+
+- **基础简单数组**
+
+1. 利用 ES6 Set  对于对象数组，如果对象引用不同，即使内容相同也会被视为不同元素（无法自动去重对象）。
+
+   扩展运算符 和set
+
+```javascript
+const arr = [1, 2, 3, 2, 1, NaN, NaN];
+
+// 方法 A: 使用扩展运算符 (...)
+const uniqueArr = [...new Set(arr)];
+
+// 方法 B: 使用 Array.from
+// const uniqueArr = Array.from(new Set(arr));
+
+console.log(uniqueArr); // [1, 2, 3, NaN]
+```
+
+2.indexOf /includes + 遍历
+
+```javascript
+// indexOf
+function unique(arr) {
+  let res = [];
+  for(let i=0; i<arr.length; i++){
+    if(res.indexOf(arr[i]) === -1){
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
+
+// includes 更直观
+function unique2(arr) {
+  let res = [];
+  arr.forEach(item => {
+    if(!res.includes(item)) res.push(item);
+  });
+  return res;
+}
+
+```
+
+4.filter + indexOf
+
+```javascript
+const arr = [1,2,2,3];
+const newArr = arr.filter((item, index) => {
+  return arr.indexOf(item) === index;
+});
+
+```
+
+5.双重 for 循环（原生基础写法）
+
+```javascript
+function unique(arr){
+  let len = arr.length;
+  for(let i=0; i<len; i++){
+    for(let j=i+1; j<len; j++){
+      if(arr[i] === arr[j]){
+        arr.splice(j,1);
+        len--; j--;
+      }
+    }
+  }
+  return arr;
+}
+
+```
+
+含 `NaN` / `undefined` / `null`
+
+⚠️ `indexOf` 无法识别 `NaN`，`Set / includes` 可以：
+
+- **对象数组去重**
+
+Map高效去重
+
+```javascript
+const arr = [
+  {id:1,name:'A'},
+  {id:2,name:'B'},
+  {id:1,name:'A'}
+];
+
+const uniqueObjArr = [...new Map(arr.map(item => [item.id, item])).values()];
+console.log(uniqueObjArr);
+
+```
+
+filter + 对象记录已存在 key
+
+```javascript
+function uniqueByKey(arr, key){
+  let obj = {};
+  return arr.filter(item => {
+    if(!obj[item[key]]){
+      obj[item[key]] = true;
+      return true;
+    }
+    return false;
+  });
+}
+// 使用：按id去重
+const res = uniqueByKey(arr, 'id');
+
+```
 
 
-改变this指向的三种方式有什么区别
 
-apply bind call
 
-由 扩展运算符  可以引申到  浅拷贝
 
-模版字符串可以 方便 添加变量
+
+
+
 
 深拷贝和浅拷贝的 应用场景 
 
-扩展运算符 可以 用于数组去重
 
-数组去重的方式 ：
-
-怪异盒模型（IE 盒模型）
-
-标准盒模型 
 
 重绘和回流（重排）
+
+
 
 定位  是否脱离 文档流  
 
@@ -28,13 +156,13 @@ apply bind call
 
 
 
-
-
 1个需求一个 分支（feature）
 
 所有需求 都要从新代码 拉取新代码  
 
-git flow：开发feature dev 
+git flow：
+
+开发feature dev 
 
 测试 test pre
 
@@ -52,6 +180,12 @@ Vue2 和Vue3
 
 不同点（新技术）：  1.可以有多个根标签fragment 2.teleport 传送 可以放到body的任何位置 3.异步加载 suspence 4.响应式 Vue2的响应式有什么缺陷 对数组的增删改
 
+
+
+
+
+
+
 使用了一个新技术 如何 使用过程
 
 1.安装 
@@ -66,7 +200,7 @@ Vue2 和Vue3
 
 
 
-Vuex  pinia
+Vuex 和pinia的区别
 
 
 
@@ -79,6 +213,8 @@ vite、webpack的区别
 git flow
 git merge 和 git rebase的区别
 git stash
+
+
 
 
 
@@ -238,7 +374,7 @@ async function getUserOrders(userId) {
 
 - ### 导出 **(Export)**
 
-1. #### 命名导出
+命名导出
 
 ```javascript
 // math.js
@@ -258,7 +394,7 @@ const VERSION = '1.0.0';
 export { subtract, VERSION };
 ```
 
-1. #### 默认导出
+默认导出
 
 ```javascript
 // user.js
@@ -278,7 +414,7 @@ export default User;
 
 - ### **导入 (Import)**
 
-1. #### 导入命名导出
+导入命名导出
 
 ```javascript
 // main.js
@@ -290,7 +426,7 @@ console.log(add(1, 2));
 console.log(sub(5, 3));
 ```
 
-#### 2.导入默认导出
+导入默认导出
 
 ```javascript
 // main.js
@@ -300,7 +436,7 @@ import User from './user.js';
 const u = new User('Alice');
 ```
 
-#### 3.混合导入
+混合导入
 
 ```javascript
 // app.js
@@ -308,7 +444,7 @@ import React, { useState, useEffect } from 'react';
 // React 是默认导出，useState/useEffect 是命名导出
 ```
 
-#### 4.导入整个模块
+导入整个模块
 
 ```javascript
 import * as MathUtils from './math.js';
@@ -318,6 +454,8 @@ console.log(MathUtils.add(1, 2));
 // 注意：默认导出也会在这个对象中，键名为 "default"
 // console.log(MathUtils.default); 
 ```
+
+
 
 let、const、箭头函数、promise、import导入导出、解构赋值、扩展运算符、模版字符串
 
@@ -975,41 +1113,148 @@ function throttle(func, wait) {
 
 ### 事件循环机制
 
+
+
 ### 闭包
+
+
 
 ### 原型、原型链
 
+
+
 ### https和http的区别
+
+
 
 ### xss（如何预防）
 
+
+
 ### csrf（如何预防）
+
+
 
 ### 重绘重排
 
+
+
 ### 打开url发生了什么
+
+
 
 ### http缓存
 
+
+
 ### vue2和vue3的diff算法有啥不同，还有响应式原理的不同点是什么
+
+
 
 ### nextTick是什么
 
+
+
 ### vuerouter的模式有哪些，底层是怎么样的（我的博客有）
+
+
 
 ### vuex为啥是区分mutation为同步，不能为异步
 
+
+
 ### webpack和vite的区别
+
+
 
 ### git rebase和git merge的区别
 
+git merg  保留历史 是保留原有的分支结构和时间顺序 并且生成一个新的合并提交节点 
+
+git rebase 重写历史 是把当前的分支的提交 剪切下来 然后 放到目标分支的最新提交之后，会重写提交历史 生成新的哈希值SHA
+
+在多人协作的公共分支上，要用 `merge`；本地自己的私有分支上整理代码时，才会用 `rebase`。
+
 ### git revert和git reset的区别
+
+相同点 git revert 和git reset 都是用于撤销更改的命令
+
+不同点：git revert 通过指定版本号将版本库还原到提交之前的操作，且不丢失提交记录
+
+git reset 会重置版本库 丢失提交记录 不推荐使用 
+
+### git stash
+
+1.保存进度
+
+```bash
+git stash
+# 或（推荐，更清晰）
+git stash push
+```
+
+2.带备注的保存
+
+```bash
+git stash push -m "开发商品列表筛选功能"
+```
+
+3.包含未跟踪文件（新文件）
+
+```bash
+git stash -u   # --include-untracked
+git stash push -u -m "备注"
+```
+
+4.包含所有文件（含`.gitignore`）
+
+```bash
+git stash -a   # --all
+```
+
+5.查看Stash列表
+
+```bash
+git stash list
+```
+
+6.查看详情
+
+```bash
+git stash show -p          # 查看最新stash的详细改动
+git stash show -p stash@{1}# 查看指定stash
+```
+
+7.pop：恢复并删除该记录
+
+```bash
+git stash pop              # 恢复最新 (stash@{0})
+git stash pop stash@{1}    # 恢复指定
+
+```
+
+8.apply：恢复但保留记录
+
+```bash
+git stash apply
+git stash apply stash@{1}
+```
+
+9.删除Stash
+
+```bash
+git stash drop              # 删除最新
+git stash drop stash@{1}    # 删除指定
+git stash clear             # ⚠️ 清空所有（不可恢复！）
+```
+
+![image-20260328231308955](C:\Users\22974\AppData\Roaming\Typora\typora-user-images\image-20260328231308955.png)
 
 ### git flow是什么
 
+### Vue2和Vue3区别
 
-
-
+### Vuex和Pinia区别
 
 
 
@@ -1025,6 +1270,11 @@ https://juejin.cn/post/7204707115062411320
 **Git基础操作 创建仓库 添加   提交   推送**
 
 ## **ES6**
+
+必会
+
+let、const、箭头函数、promise、import导入导出、解构赋值、扩展运算符、模版字符串
+let const var区别
 
 ### let
 
@@ -1113,6 +1363,8 @@ const A=100
 ### 模版字符串
 
 **``**
+
+方便添加变量
 
 - #### 声明
 
@@ -1302,6 +1554,8 @@ date('张三','李四','王五','赵六')//可以使用一些数组方法
 ```
 
 ### 扩展运算算符
+
+由 扩展运算符  可以引申到  浅拷贝
 
 扩展运算符能够将数组**[  ]**转化为逗号分割的参数序列。
 
@@ -2392,6 +2646,8 @@ vue--version
 npm install -g @vue/cli
 //创建
 vue create vue_test
+选择你需要的配置
+
 //启动
 cd vue_test
 npm run serve
@@ -2403,7 +2659,7 @@ npm run serve
 
 ```cmd
 //创建工程
-npm init vite-app <project-name>
+npm create vite@latest  //  npm create vite@latest my-vue-app -- --template vue
 //进入工程目录
 cd <project-name>
 //安装依赖
@@ -2468,6 +2724,8 @@ export default {
 
 **不能为 async 函数**：async 函数返回值会被 Promise 包裹，模板中的数据将无法使用，写代码时要避免因使用 await 而错误添加 async。
 
+setup函数在beforeCreate生命周期钩子执行之前执行 实例还没有生成 没有this
+
 ### ref函数 
 
 作用:定义一个响应式的数据
@@ -2481,8 +2739,6 @@ const xxx=ref{initValue}
 js中操作数据：xxx.value
 
 模版中读取数据：不需要value，直接<div>{{xxx}}</div>
-
-
 
 - #### Vue2 与 Vue3 的 ref 对比
 
@@ -2836,10 +3092,18 @@ setup(){
 
 - #####  watch函数
 
+  watch函数接受3个参数
+
+  第一个参数为函数 返回你要监听变化的响应式数据
+
+  第二个参数为响应式数据变化之后要执行的回掉函数
+  
+  第三个参数为一个对象 在里面配置是否开启立刻执行或者深度监听
+  
   监视reactive定义的响应式数据时：oldValue无法正确获取、强制开启了深度监视（deep配置失效）。
-
+  
   监视reactive定义的响应式数据中某个属性时：deep配置有效。
-
+  
   **immediate:true**：立即开始监听   
 
 ```javascript
@@ -2858,10 +3122,10 @@ watch([sum,msg],(newValue,oldValue)=>{
 			若watch监视的是reactive定义的响应式数据，则强制开启了深度监视 
 */
 
-//最常用的是这个
-watch(person,(newValue,oldValue)=>{
+//最常用的是这个   监视reactive所定义的一个响应式数据的全部属性
+watch(person,(newValue,oldValue)=>{ 
 	console.log('person变化了',newValue,oldValue)
-},{immediate:true,deep:false}) //此处的deep配置不再奏效
+},{immediate:true,deep:false}) //此处的deep配置不再奏效 
 
 //情况四：监视reactive定义的响应式数据中的某个属性
 watch(()=>person.job,(newValue,oldValue)=>{
@@ -2950,31 +3214,58 @@ watchEffect(()=>{
 
 ### Vue3的生命周期
 
+| 阶段 | Vue 2 (Options API) | Vue 3 Options API (兼容写法) | Vue 3 Composition API (`<script setup>`) | 说明                                |
+| ---- | ------------------- | ---------------------------- | ---------------------------------------- | ----------------------------------- |
+| 创建 | `beforeCreate`      | `beforeCreate`               | `setup()`                                | `setup` 执行时机早于 `beforeCreate` |
+|      | `created`           | `created`                    | `setup()`                                | 数据初始化通常直接写在 `setup` 顶层 |
+| 挂载 | `beforeMount`       | `beforeMount`                | `onBeforeMount`                          | DOM 生成前调用                      |
+|      | `mounted`           | `mounted`                    | `onMounted`                              | 最常用，DOM 已生成，可操作 DOM      |
+| 更新 | `beforeUpdate`      | `beforeUpdate`               | `onBeforeUpdate`                         | 数据变了，但 DOM 还没变             |
+|      | `updated`           | `updated`                    | `onUpdated`                              | DOM 更新完成                        |
+| 卸载 | `beforeDestroy`     | `beforeUnmount`              | `onBeforeUnmount`                        | 改名了，清理定时器、解绑事件        |
+|      | `destroyed`         | `unmounted`                  | `onUnmounted`                            | 改名了，组件已完全卸载              |
+
 ![image-20260311005711136](C:\Users\22974\AppData\Roaming\Typora\typora-user-images\image-20260311005711136.png)
+
+**数据请求/初始化**：
+
+- Vue 2: `created`
+- Vue 3: `setup()` 函数体内直接写
+
+**DOM 操作**（如使用 ECharts、获取元素高度）：
+
+- Vue 2: `mounted`
+- Vue 3: `onMounted`
+
+**清理工作**（清除定时器、移除全局事件监听）：
+
+- Vue 2: `beforeDestroy`
+- Vue 3: `onBeforeUnmount`
 
 Vue3.0也提供了 Composition API 形式的生命周期钩子，与Vue2.x中钩子对应关系如下：
 
-beforeCreate`===>`setup()` 
+```javascript
+beforeCreate===>setup() //发AJAX请求获取数据
+created=======>setup()   //发AJAX请求获取数据
 
-`created`=======>`setup()` 
+beforeMount ===>onBeforeMount  组件挂载到 DOM 之前执行
 
-beforeMount` ===>`onBeforeMount`  组件挂载到 DOM 之前执行
+mounted=======>onMounted         组件挂载到 DOM 之后执行
 
-mounted`=======>`onMounted`          组件挂载到 DOM 之后执行
+beforeUpdate===>onBeforeUpdate 响应式数据更新、DOM 重新渲染前
 
-beforeUpdate`===>`onBeforeUpdate`  响应式数据更新、DOM 重新渲染前
+updated =======>onUpdated 响应式数据更新、DOM 重新渲染后
 
-updated` =======>`onUpdated` 响应式数据更新、DOM 重新渲染后
+beforeUnmount ==>onBeforeUnmount 组件卸载之前执行
 
-beforeUnmount` ==>`onBeforeUnmount` 组件卸载之前执行
-
-unmounted` =====>`onUnmounted` 组件卸载完成后执行
+unmounted =====>onUnmounted 组件卸载完成后执行
+```
 
 Vue3.0中可以继续使用Vue2.x中的生命周期钩子，但有有两个被更名：
 
-`beforeDestroy```改名为 ```beforeUnmount
+beforeDestroy```改名为 ```onBeforeUnmount
 
-```destroyed```改名为 ```unmounted
+```destroyed```改名为 onUnmounted
 
 ### 自定义hook函数
 
@@ -3153,8 +3444,12 @@ setup(props,context){
 ### Composition API 的优势
 
 -  **定义**：基于 setup 语法糖（Vue3 推荐），按 “业务逻辑” 组织代码，核心是把同一个功能的代码（数据、方法、监听等）聚合在一起。
-
 - **特点**：逻辑复用性极强（比如抽离通用的 “分页逻辑”“表单校验逻辑”），复杂组件的代码结构更清晰，支持 TypeScript 友好。
+- 
+
+### TemplateRef
+
+
 
 ### Teleport
 
@@ -3251,8 +3546,6 @@ export default {
 
 ```
 
-
-
 ### **suspense**
 
 等待异步组件时渲染一些额外内容，让应用有更好的用户体验
@@ -3326,6 +3619,509 @@ export default{
 </script>
 ```
 
+### 插槽
+
+ 作用：让父组件可以向子组件指定位置插入html结构，也是一种组件间通信的方式，适用于父组件===>子组件
+
+-  默认插槽
+
+```javascript
+父组件中：
+   <Category title="游戏">
+    <div>html结构1</div>
+   </Category>
+子组件中
+<template>
+  <div class="category">
+    <slot>如果没有内容 这里展示默认内容</slot>
+  </div>
+</template>
+```
+
+- 具名插槽
+
+```javascript
+父组件中：
+<Category>
+  <template slot="center">
+  <div>html结构1</div>
+  </template>
+  
+  <template v-slot="footer">
+  <div>html结构2</div>
+  </template>
+</Category>
+子组件中：
+<template v-slot="footer">
+  <div>
+<slot name="center">插槽默认内容。。。</slot>
+<slot name="footer">插槽默认内容。。。</slot>
+</div>
+</template>
+```
+
+## Vuex
+
+- ### 组件之间共享数据的方式
+
+父向子传值：v-bind 属性绑定
+
+子向父传值： v-on 事件绑定
+
+兄弟组件之间共享数据：EventBus
+
+- $on 接收数据的那个组件
+
+- $emit 发送数据的那个组件
+
+**Vuex** 是实现组件全局状态 管理的一种机制 ，可以方便的实现组件之间数据的共享。
+
+- ### Vuex的基本使用
+
+安装
+
+```bash
+npm install vuex@3 --save    //  Vue 2 对应 Vuex 3.x
+npm install vuex@4 --save    //  Vue 3 对应 Vuex 4.x
+```
+
+1. 在 `src` 下创建 `store/index.js`
+
+   ```javascript
+   import Vue from 'vue'
+   import Vuex from 'vuex'
+   
+   Vue.use(Vuex)
+   
+   export default new Vuex.Store({
+     state: {
+       count: 0
+     },
+     mutations: {
+       add(state) {
+         state.count++
+       }
+     }
+   })
+   ```
+
+2. 在 `main.js` 引入
+
+   ```javascript
+   import store from './store'
+   
+   new Vue({
+     store,
+     render: h => h(App)
+   }).$mount('#app')
+   ```
+
+- ### 核心概念
+
+**State**
+
+State提供唯一的公共数据源，所有共享的数据都要统一放到Store的State中进行存储
+
+```js
+//创建 store数据源 提供唯一公共数据
+const store=new Vuex.Store({
+state:{count:0}
+})
+```
+
+组件访问State中数据的第一种方式
+
+```js
+this.$store.state.全局数据名称
+```
+
+组件访问State中数据的第二种方式
+
+通过刚才导入的mapState函数，将当前组件需要的全局数据，映射为当前组件的computed计算属性
+
+```javascript
+computed：{
+...mapState(['count'])
+}
+```
+
+**Mutation**
+
+不要在mutation中执行异步操作
+
+Mutation用于变更Store中的数据   不可以直接操作store中的数据
+
+可以集中监考所有数据的变化
+
+```javascript
+// 创建store实例
+export default new Vuex.Store({
+  state: {
+    count: 0
+  },
+   //改变状态
+  mutations: {
+    add(state) {
+      state.count++
+    },
+    sub(state){
+      state.count--
+    }
+  }
+})
+
+
+
+//组件中
+import { mapState } from 'vuex'
+export default{
+    name:'Subtraction',
+    data(){
+        return{
+           
+        }
+    },
+    methods: {
+        sub(){
+            this.$store.commit('sub')
+        }
+    },
+    computed: {
+        ...mapState(['count'])
+    },
+
+}
+```
+
+可以触发mutation时传递参数
+
+step为参数    
+
+```javascript
+// 创建store实例
+export default new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    adaN(state,step){
+        state.count+=step
+    },
+
+  }
+})
+
+
+//组件中
+<script>
+import { mapState } from 'vuex'
+export default{
+    name:'Subtraction',
+    data(){
+        return{
+           
+        }
+    },
+    methods: {
+        sub(){
+            this.$store.commit('sub')
+        },
+        //Mutation传递参数  
+        adaN(){
+            this.$store.commit('adaN',100)
+        }
+    },
+    computed: {
+        ...mapState(['count'])
+    },
+
+}
+</script>
+```
+
+触发mutation的第二种方式
+
+```javascript
+import {mapMutation} from 'vuex'
+```
+
+```javascript
+methods:{
+    ...mapMutations(['add','adadN'])
+}
+```
+
+**Action**
+
+可以用于处理异步任务
+
+如果通过异步操作变更数据，必须通过action，而不能使用mutation，但是在Action中还是要通过触发Mutation的方式间接变更数据
+
+​                                 dispatch用来触发 action
+
+通过action异步修改 无法直接修改 state里面的数据 必须借助mutation来修改 state里面的函数 
+
+action中通过 contex.commit('函数名',参数) 调用 mutation里面的函数 从而 修改 state里面的数据
+
+```java
+  mutations: {
+
+    add(state,step){
+        state.count+=step
+    },
+
+  }
+//action无法直接操作 state里面的数据 必须通过 mutation来操作
+actions: {
+    addAsync(context,step){
+        setTimeout(()=>{
+            this.commit('add',step)
+        },1000)
+    }
+  }
+//组件中
+    methods: {
+        add(){
+            this.$store.commit('add')
+        },
+        handle(){ 
+            this.$store.dispatch('addAsync')
+        }
+    },
+```
+
+触发action携带参数
+
+```javascript
+  actions: {
+    addAsync(context,step){
+        setTimeout(()=>{
+            this.commit('add'，step)
+        },1000)
+    }
+  }
+//组件中
+    methods: {
+        add(){
+            this.$store.commit('add')
+        },
+        handle(){
+            //触发actions时携带参数
+            this.$store.dispatch('addAsync'，5)
+        }
+    },
+```
+
+触发action的第二种方式
+
+```javascript
+  actions: {
+    addAsync(context){
+        setTimeout(()=>{
+            this.commit('add')
+        },1000)
+    }
+  }
+//组件中
+    methods: {
+        ...mapActions(['subAsync'])
+        add(){
+            this.$store.commit('add')
+        },
+        handle(){
+            //触发actions时携带参数
+            this.$store.dispatch('addAsync'，5)
+        },
+        subAsync(){
+            
+        }
+    },
+```
+
+**Getter**
+
+getter可以对Store中已经有的数据加工处理之后形成新的数据 
+
+Store中数据发生变化 ，Getter的数据也会跟着变化
+
+```javascript
+  getters: {
+    doubleCount(state){
+        return state.count*2
+    }
+  },
+```
+
+在组件中使用
+
+第一种方式
+
+```javascript
+this.$store.getters.名称
+```
+
+第二种方式
+
+```
+import {mapGetters} from `vuex`
+computed:{
+...mapGetters(['showNum'])
+}
+//组件中
+    <div>
+       {{showNum }}
+    </div>
+```
+
+## Pinia 
+
+前端数据管理
+
+- ### 基本使用
+
+安装
+
+```bash
+npm install pinia
+```
+
+在main.js中挂载
+
+```javascript
+import { createApp } from 'vue'
+import { createPinia } from 'pinia' // 引入pinia模块
+import App from './App.vue'
+const pinia=createPinia()
+createApp(App).use(pinia).mount('#app')
+
+```
+
+配置store/counter.js
+
+使用 默认导出   组件import 不用加{   }
+
+使用命名导出    组件import 需要加 {   }
+
+``` javascript
+// 按需导入store的方法
+import { defineStore } from 'pinia'
+// 定义一个模块并且导出
+// 参数1：模块的名称
+// 参数2：store对象
+// 返回值 是一个函数 一致命名为 useXXXStore 
+// 按需导出 也可以默认导出
+const useCounterStore = defineStore('counter',{
+
+  state:()=>({
+    count:0
+  }),
+  actions:{
+    increment(){
+      this.count++
+    }
+  },
+  getters:{
+    doubleCount(state){
+      return state.count*2
+    }
+  }
+})
+export default useCounterStore
+```
+
+在组件中使用
+
+```javascript
+<template>
+  <div>
+    <h1>当前计数：{{ counter.count }}</h1>
+    <button @click="hIncrement">增加</button>
+  </div>
+</template>
+<script>
+import useCounterStore from './store/counter.js'
+export default {
+  name: 'App',
+  setup() {
+    const counter=useCounterStore()
+    function hIncrement(){
+      counter.increment()
+    }
+    return {
+      counter,
+      hIncrement  
+    }
+  }
+}
+</script>
+<style>
+</style>
+```
+
+- ### Getters
+
+计算属性
+
+```javascript
+ getters:{
+    doubleCount(state){
+      return state.count*2
+    }
+  }
+```
+
+- ### storeToRefs
+
+toRefs：将Vue变量变成响应式的
+
+storeToRefs：是将pinia变量变成2响应式的 避免解构赋值后丢失响应式的特性
+
+- ### pinia的模块化
+
+ 在复杂项目中，一个模块对应一个store 最后通过一个根store进行整合
+
+新建store/user.js文件
+
+```javascript
+// 按需导入store的方法
+import { defineStore } from 'pinia'
+// 定义一个模块并且导出
+// 参数1：模块的名称
+// 参数2：store对象
+// 返回值 是一个函数 一致命名为 useXXXStore 
+// 按需导出 也可以默认导出
+const useUserStore = defineStore('user',{
+
+  state:()=>({
+    count:0
+  }),
+})
+export default useUserStore
+```
+
+新建store/index.js
+
+```javascript
+import useUserStore from "./user";
+import useCounterStore from "./counter";
+export dafault function useStore(){
+    return{
+        counter:useCounterStore()
+        user:useUserStore()
+    }
+}
+
+```
+
+在组件中使用
+
+```javascript
+<script>
+import useStore from './store
+const {counter}=useStore()
+</script>
+```
+
 ## Git
 
 - ### 仓库操作
@@ -3356,7 +4152,7 @@ git status
 git commit -m "完成了某某功能"
 ```
 
-提交日志
+提交日志   查看文件的历史记录，并且查看不同版本之间的差别
 
 ```bash
 git log --oneline
@@ -3372,6 +4168,8 @@ git restore 文件名
 
 **误删除已提交恢复**：若删除操作已提交，“git restore” 无法恢复；可使用 “git reset --hard” 指令重置版本库，但会丢失提交过程；也可使用 “git revert” 指令，通过指定版本号将版本库还原到提交之前的操作，且不丢失提交记录。
 
+git revert 可以查看详细的恢复过程
+
 ```bash
 git reset --hard xxxxxxxx //恢复之前被误删除的
 ```
@@ -3384,10 +4182,20 @@ git reset --hard xxxxxxxx //恢复之前被误删除的
 
  创建并切换分支
 
-使用 “git checkout -b order” 可将创建订单分支和切换到该分支的步骤合并。
+使用 “git checkout -b order” 可将**创建订单分支和切换到该分支**的步骤合并。
 
 ```bash
 git checkout -b order
+```
+
+比较差异
+
+```
+
+//比较当前工作区 / 暂存区的 config.yaml 文件，与 main 分支上该文件的最新版本之间的差异。
+git diff main -- config.yaml
+//直接比较 branchA 和 branchB 两个分支中 config.yaml 文件的差异。
+git diff branchA branchB -- config.yaml
 ```
 
 分支查看
@@ -3410,13 +4218,75 @@ git branch -d use
 
 - ### 标签操作
 
-  
+创建标签
+
+```bash
+git tag 名字
+```
+
+添加标签
+
+使用 “git tag 名称 版本号” 指令为提交版本增加别名，如 “git tag update file 版本号”。
+
+```bash
+git tag update file 版本号
+```
+
+ 查看标签
+
+```bash
+git tag
+```
+
+使用标签
+
+```bash
+git checkout 标签名
+```
+
+```bash
+git checkout -b 新分支名 标签名
+```
+
+删除标签
+
+```bash
+git tag -d 标签名
+```
 
 - ### 远程操作
 
+关联远程仓库
 
+```bash
+git remote add origin https://github.com/username/project-name.git
+```
 
+检查是否绑定成功
 
+```bash
+git remote -v
+```
+
+本地仓库提交到远程仓库
+
+```bash
+git add .
+git commit -m "xxx"
+git push 
+```
+
+远程 Git 仓库到本地
+
+```bash
+git clone https://github.com/username/repo.git
+```
+
+远程仓库文件更新后本地仓库同步：
+
+```bash
+git pull
+```
 
 ![image-20260325222253857](C:\Users\22974\AppData\Roaming\Typora\typora-user-images\image-20260325222253857.png)
 
@@ -3427,8 +4297,6 @@ git branch -d use
 2.创建新分支 **git checkout -b xxx**
 
 3推送到远程仓 **git push -u origin xxx**
-
-
 
 
 
